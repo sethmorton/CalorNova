@@ -8,8 +8,11 @@
   export let hourlyData: any[];
   export let cumulativeHourlyCost: number[];
 
+  let totalCumulativeCost = cumulativeHourlyCost.reduce((acc, cost) => acc + cost, 0).toFixed(2);
+
+
   let chartCanvas: HTMLCanvasElement;
-  let chartCanvas1: HTMLCanvasElement;
+  // let chartCanvas1: HTMLCanvasElement;
   let chartInstance;
   let chartInstance1;
 
@@ -39,6 +42,11 @@
 
     export let options = {
         responsive: true,
+        layout: {
+            padding: {
+                left: 150
+            }
+        },
         plugins: {
             legend: {
                 position: "top",
@@ -50,6 +58,9 @@
                 display: true,
                 text: "Fuel Mix Composition",
                 color: "white", // White text for title
+                font: {
+                        size: 20,
+                    }
             },
         },
     };
@@ -64,8 +75,8 @@
         label: "Combined Score",
         data: hourlyData.map((d) => d.combinedScore),
         borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-        pointRadius: 5,
+        tension: 0.15,
+        pointRadius: 1,
         pointHoverRadius: 8,
       },
     ],
@@ -94,12 +105,14 @@
         position: "top" as const,
         labels: {
           color: "white", // white text for legend
+          
         },
       },
       title: {
         display: true,
         text: "Hourly Total Cost Savings",
         color: "white", // white text for title
+
       },
       tooltip: {
         callbacks: {
@@ -155,12 +168,16 @@
             yMin: 80,
             yMax: 80,
             borderColor: "rgba(255, 0, 0, 0.5)",
-            borderWidth: 2,
+            borderWidth: 4,
             label: {
               content: "Increase compute significantly",
               enabled: true,
               position: "start" as const,
-              color: "white" // white text for annotation label
+              color: "white", // white text for annotation label
+              font: {
+                        size: 50,
+                    }
+
             },
           },
           line60: {
@@ -214,6 +231,9 @@
         display: true,
         text: "Hourly Combined Score and Compute Recommendations",
         color: "white", // white text for title
+        font: {
+                        size: 20,
+                    }
       },
       tooltip: {
         callbacks: {
@@ -268,25 +288,32 @@
 
   function createCharts() {
     if (chartInstance) chartInstance.destroy();
-    if (chartInstance1) chartInstance1.destroy();
+    // if (chartInstance1) chartInstance1.destroy();
 
-    if (chartCanvas && chartCanvas1) {
+    // if (chartCanvas && chartCanvas1) {
+    if (chartCanvas) {
       chartInstance = new Chart(chartCanvas, {
         type: "line",
         data: chartData,
         options: chartOptions,
       });
 
-      chartInstance1 = new Chart(chartCanvas1, {
-        type: "line",
-        data: chartData1,
-        options: chartOptions1,
-      });
+      // chartInstance1 = new Chart(chartCanvas1, {
+      //   type: "line",
+      //   data: chartData1,
+      //   options: chartOptions1,
+      // });
 
       chart2 = new Chart(canvas, {
-            type: "pie",
+            type: "doughnut",
             data,
-            options,
+            options: {
+        layout: {
+            padding: {
+                right: 50
+            }
+        }
+    },
         });
 
         return () => {
@@ -316,21 +343,22 @@
 
 <div>
   <div class="dashboard">
-    <h2 class="dashboard-header">Hourly Compute Resource Management</h2>
+    <!-- <h2 class="dashboard-header">Hourly Compute Resource Management</h2> -->
     <div class="grid-container">
-      <div class="chart-panel">
+      <div class="chart-panel large-panel">
         <div class="chart-container">
           <canvas bind:this={chartCanvas}></canvas>
         </div>
       </div>
-      <div class="chart-panel">
-        <div class="chart-container">
-          <canvas bind:this={chartCanvas1}></canvas>
+      <div class="right-panel">
+        <div class="chart-panel info-panel">
+          <h3>Total Cost Savings ($)</h3>
+          <p class="total-cost">${totalCumulativeCost}</p>
         </div>
-      </div>
-      <div class="chart-panel">
-        <div class="chart-container">
-          <canvas bind:this={canvas}></canvas>
+        <div class="chart-panel">
+          <div class="chart-container">
+            <canvas bind:this={canvas}></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -338,43 +366,81 @@
 </div>
 
 <style>
-  .dashboard-header {
+  /* .dashboard-header {
     position: absolute;
     top: 10px;
     right: 20px;
     font-size: 2rem;
     color: white;
     margin: 0;
-  }
+  } */
 
   .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Adjusted for three columns */
+    grid-template-columns: 2fr 2fr; /* Left side wider than right side */
     gap: 2rem;
     padding: 2rem;
   }
 
   .chart-container {
-    height: 600px;
+    height: 90%;
     width: 100%;
-    padding: 1rem;
+    margin-left: 1rem;
   }
 
   .chart-panel {
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: black;
-    padding: 1rem;
+    padding: 0.5rem;
+    /* padding: 1rem; */
+    /* padding-left: 2rem; */
     display: flex;
+    height: 24rem;
+    /* margin-right: 50rem; */
+    justify-content: left;
+    align-items: left;
+    margin-bottom: 1rem;
+  }
+  .info-panel {
     justify-content: center;
-    align-items: center;
+  }
+
+  .info-panel h3 {
+    margin-top: 1rem;
+    text-align: center;
+    color: white;
+  }
+
+  .info-panel .total-cost {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: tusk;
+    margin-top: 9rem;
+    transform: translateX(-60%);
+    text-align: center;
+  }
+
+  .large-panel {
+    height: 50rem;
+    width: 50rem;
+    margin-right: 6rem;
+    margin-left: 6rem;
+  }
+
+  .right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%;
   }
 
   .dashboard {
     position: relative;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 2rem 0;
   }
+
 </style>
