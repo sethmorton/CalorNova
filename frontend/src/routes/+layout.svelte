@@ -13,7 +13,6 @@
   @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Quicksand:wght@300..700&display=swap");
   :global(body) {
     overflow-y: hidden;
-    padding: 0;
     font-family: "Quicksand", sans-serif;
     background: linear-gradient(135deg, #333333 0%, #000000 100%);
     background-attachment: fixed;
@@ -28,7 +27,7 @@
   }
 
   main {
-    flex: 1;
+    /* flex: 1; */
     display: flex;
     flex-direction: column;
     justify-content: center;

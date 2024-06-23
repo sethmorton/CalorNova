@@ -53,6 +53,7 @@
 <style>
   footer {
       position: fixed;
+      /* display: flex; */
       bottom: 0;
       width: 100%;
       background-color: rgb(52, 52, 52);
@@ -71,12 +72,13 @@
     display: flex;
     border-radius: 10px;
     justify-content: space-between;
+    padding: 1rem;
+    margin-bottom: 10rem;
     align-items: center;
-    padding: 20px;
     width: 100%;
     background-color: #2c3e50;
     color: white;
-    transform: translateY(-100%) translateX(-1%);
+    /* transform: translateY(-100%) translateX(-1%); */
   }
 
   .header1 {
@@ -137,7 +139,7 @@
   }
 
   .dashboard {
-    flex: 2;
+    flex: 3;
     /* padding-bottom: 2rem; */
   }
 </style>

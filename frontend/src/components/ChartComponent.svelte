@@ -43,9 +43,9 @@
     export let options = {
         responsive: true,
         layout: {
-            padding: {
-                left: 150
-            }
+            // padding: {
+            //     left: 150
+            // }
         },
         plugins: {
             legend: {
@@ -59,7 +59,7 @@
                 text: "Current Fuel Mix Composition",
                 color: "white", // White text for title
                 font: {
-                        size: 28,
+                        size: 18,
                     }
             },
         },
@@ -309,9 +309,9 @@
             data,
             options: {
         layout: {
-            padding: {
-                right: 50
-            }
+            // padding: {
+            //     right: 10
+            // }
         }
     },
         });
@@ -341,9 +341,8 @@
   });
 </script>
 
-<div>
+<div class="dashboard-container">
   <div class="dashboard">
-    <!-- <h2 class="dashboard-header">Hourly Compute Resource Management</h2> -->
     <div class="grid-container">
       <div class="chart-panel large-panel">
         <div class="chart-container">
@@ -366,86 +365,75 @@
 </div>
 
 <style>
-  /* .dashboard-header {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 2rem;
-    color: white;
-    margin: 0;
-  } */
-
-  .grid-container {
-    display: grid;
-    grid-template-columns: 2fr 2fr; /* Left side wider than right side */
-    gap: 2rem;
-    margin-bottom: 4rem;
-    padding-bottom: 4rem;
+  .dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem;
+    padding-top: 2rem;
+    box-sizing: border-box;
   }
 
-  .chart-container {
-    height: 90%;
+  .dashboard {
     width: 100%;
-    margin-left: 1rem;
+    /* max-width: 1400px; */
+    margin-top: -10rem;
+  }
+
+  .grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
   }
 
   .chart-panel {
+    flex: 1 1 300px;
     border: 2px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: black;
-    padding: 0.5rem;
-    /* padding: 1rem; */
-    /* padding-left: 2rem; */
+    padding: 1rem;
     display: flex;
-    height: 24rem;
-    /* margin-right: 50rem; */
-    justify-content: left;
-    align-items: left;
-    margin-bottom: 1rem;
-  }
-  .info-panel {
     justify-content: center;
-  }
-
-  .info-panel h3 {
-    margin-top: 1rem;
-    text-align: center;
-    color: white;
-  }
-
-  .info-panel .total-cost {
-    font-size: 3.5rem;
-    font-weight: bold;
-    color: tusk;
-    margin-top: 9rem;
-    transform: translateX(-40%);
-    text-align: center;
+    align-items: center;
   }
 
   .large-panel {
+    flex: 2 1 600px;
     height: 50rem;
-    width: 55rem;
-    margin-right: 6rem;
-    margin-left: 6rem;
-    /* margin-bottom: 6rem; */
-    transform: translateY(-8%);
   }
 
   .right-panel {
+    flex: 1 1 300px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    width: 90%;
-    margin-bottom: 2rem;
-    transform: translateY(-9%);
+    gap: 2rem;
   }
 
-  .dashboard {
-    position: relative;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 2rem 0;
+  .chart-container {
+    width: 100%;
+    height: 100%;
   }
 
+  .info-panel {
+    height: 24rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info-panel h3 {
+    color: white;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .total-cost {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: tusk;
+    text-align: center;
+  }
 </style>

@@ -41,7 +41,7 @@
   />
 </svelte:head>
 
-<h1 style="font-size: 3rem; font-family: 'DM Sans', sans-serif;">CalorNova</h1>
+<h1 style="font-size: 3rem; font-family: 'DM Sans', sans-serif;">Volta</h1>
 <p style="font-size: 1.2rem;">
   Analyze power savings and environmental sustainability based on your region
   and consumption.
