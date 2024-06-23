@@ -352,7 +352,7 @@
       </div>
       <div class="right-panel">
         <div class="chart-panel info-panel">
-          <h3>Total Cost Savings ($)</h3>
+          <h3>Total Daily Cost Savings ($)</h3>
           <p class="total-cost">${totalCumulativeCost}</p>
         </div>
         <div class="chart-panel">
@@ -406,6 +406,7 @@
   }
   .info-panel {
     justify-content: center;
+    text-align: center;
   }
 
   .info-panel h3 {
@@ -425,7 +426,7 @@
 
   .large-panel {
     height: 50rem;
-    width: 50rem;
+    width: 55rem;
     margin-right: 6rem;
     margin-left: 6rem;
     /* margin-bottom: 6rem; */

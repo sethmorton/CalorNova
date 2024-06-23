@@ -1,12 +1,12 @@
 <script>
   import { writable } from "svelte/store";
   import { Circle2 } from "svelte-loading-spinners";
-  import { analysisStore } from "../stores";
+  import { analysisStore, zipCode, region, powerConsumption } from "../stores";
   import { goto } from "$app/navigation";
   let regions = ["California", "Arizona", "Texas", "Nevada", "Oregon"];
-  let selectedRegion = writable("");
-  let powerConsumption = writable("");
-  let zipCode = writable("");
+  // let selectedRegion = writable("");
+  // let powerConsumption = writable("");
+  // let zipCode = writable("");
   let step = writable(0);
   let isLoading = writable(false);
 
@@ -66,14 +66,14 @@
     {#if $step === 0}
       <div class="step">
         <h2>Select Power Grid Region</h2>
-        <select bind:value={$selectedRegion}>
+        <select bind:value={$region}>
           <option value="" disabled selected>Select a region</option>
           {#each regions as region}
             <option value={region}>{region}</option>
           {/each}
         </select>
         <div class="buttons">
-          <button on:click={nextStep} disabled={!$selectedRegion}>Next</button>
+          <button on:click={nextStep} disabled={!$region}>Next</button>
         </div>
       </div>
     {/if}
@@ -112,7 +112,7 @@
     {#if $step === 3}
       <div class="step">
         <h2>Generate Analysis Report</h2>
-        <p>Region: {$selectedRegion}</p>
+        <p>Region: {$region}</p>
         <p>Zip Code: {$zipCode}</p>
         <p>Power Consumption: {$powerConsumption.toLocaleString()} KWh</p>
         <div class="buttons">

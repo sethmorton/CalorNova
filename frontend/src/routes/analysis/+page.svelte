@@ -1,8 +1,11 @@
 <script lang="ts">
   import { writable } from 'svelte/store';
+  import {zipCode, region, powerConsumption } from '../../stores';
   import ChartComponent from '../../components/ChartComponent.svelte';
   import Report from './Report.svelte'; // Assuming you have the Report component
   import Footer from '../../components/Footer.svelte';
+
+  let showModal = writable(false);
 
   export let user = "John Doe"; // Replace with the actual user name
 
@@ -22,15 +25,26 @@
   });
 </script>
 
+
 <div class="layout">
   <div class="dashboard">
-    <h1 class="header1">Analysis for Region (California), Zip Code: (Zip Code), at ()kWh Power Consumption</h1>
-    {#if $showReport}
-      <Report data={jsonData} />
-    {:else}
+    <header class="header">
+      <h1 class="header1">Analysis for Region {$region}, Zip Code: {$zipCode}, at {$powerConsumption}kWh Power Consumption</h1>
+      <button class="modal-button" on:click={() => showModal.set(true)}>View Report</button>
+    </header>
+    {#if !$showModal}
       <ChartComponent {hourlyData} {cumulativeHourlyCost} />
     {/if}
   </div>
+
+  {#if $showModal}
+    <div class="modal-overlay" role="dialog" aria-modal="true" on:click={() => showModal.set(false)} on:keydown={() => showModal.set(false)}>
+      <div class="modal-content" on:click|stopPropagation on:keydown|stopPropagation>
+        <Report data={jsonData} />
+        <button class="close-button" role="button" on:click={() => showModal.set(false)} on:keydown={() => showModal.set(false)}>Close</button>
+      </div>
+    </div>
+  {/if}
 </div>
 <footer>
   <p>&copy; 2024 Volta. All rights reserved.</p>
@@ -53,18 +67,73 @@
       font-size: 0.9em;
   }
 
-  .header1 {
-    transform: translateY(-150%);
-    margin-bottom: 2rem;
+  .header {
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    background-color: #2c3e50;
+    color: white;
+    transform: translateY(-100%) translateX(-1%);
   }
 
-  .layout {
-    display: absolute;
-    height: 300vh;
-    margin-bottom: 10rem;
-    max-width: 100%;
-    padding-bottom: 10rem; /* Adjust this value based on the height of your footer */
-  
+  .header1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .modal-button {
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+  .modal-button:hover {
+    background-color: #16a085;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .close-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+
+  .close-button:hover {
+    background-color: #c0392b;
   }
 
   .dashboard {
