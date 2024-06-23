@@ -29,6 +29,7 @@
     isLoading.set(false);
     analysisStore.set(analysis);
     goto("/analysis");
+
   }
 </script>
 
