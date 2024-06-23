@@ -30,7 +30,7 @@
   />
 </svelte:head>
 
-<h1 style="font-size: 3rem;">CalorNova</h1>
+<h1 style="font-size: 3rem; font-family: 'DM Sans', sans-serif;">CalorNova</h1>
 <p style="font-size: 1.2rem;">
   Analyze power savings and environmental sustainability based on your region
   and consumption.
@@ -69,7 +69,7 @@
       <input
         type="number"
         bind:value={$powerConsumption}
-        placeholder="Enter power consumption in GWh"
+        placeholder="Enter power consumption in KWh"
       />
       <div class="buttons">
         <button on:click={prevStep}>Back</button>
@@ -83,7 +83,7 @@
       <h2>Generate Analysis Report</h2>
       <p>Region: {$selectedRegion}</p>
       <p>Zip Code: {$zipCode}</p>
-      <p>Power Consumption: {$powerConsumption} GWh</p>
+      <p>Power Consumption: {$powerConsumption.toLocaleString()} KWh</p>
       <div class="buttons">
         <button on:click={prevStep}>Back</button>
         <button on:click={generateReport}>Generate Report</button>
