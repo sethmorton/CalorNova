@@ -315,35 +315,66 @@
 </script>
 
 <div>
-  <div class="parent-container">
-    <h2 >Hourly Compute Resource Management</h2>
-    <div class="chart-container">
-      <canvas bind:this={chartCanvas}></canvas>
+  <div class="dashboard">
+    <h2 class="dashboard-header">Hourly Compute Resource Management</h2>
+    <div class="grid-container">
+      <div class="chart-panel">
+        <div class="chart-container">
+          <canvas bind:this={chartCanvas}></canvas>
+        </div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-container">
+          <canvas bind:this={chartCanvas1}></canvas>
+        </div>
+      </div>
+      <div class="chart-panel">
+        <div class="chart-container">
+          <canvas bind:this={canvas}></canvas>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="chart-container">
-    <canvas bind:this={chartCanvas1}></canvas>
-  </div>
-  <div class="mx-3 px-3 my-6 py-6 chart-container-1">
-    <canvas bind:this={canvas}></canvas>
-
   </div>
 </div>
 
 <style>
+  .dashboard-header {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    color: white;
+    margin: 0;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Adjusted for three columns */
+    gap: 2rem;
+    padding: 2rem;
+  }
+
   .chart-container {
     height: 600px;
-    width: 90%;
+    width: 100%;
+    padding: 1rem;
   }
 
-  .chart-container-1 {
-    height: 600px;
-    width: 90%;
-    margin-left: 3rem;
-    margin-top: 2rem;
+  .chart-panel {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: black;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .parent-container {
-    width: 50.9rem;
+  .dashboard {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
   }
 </style>

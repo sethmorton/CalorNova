@@ -22,14 +22,14 @@
 </script>
 
 <div class="layout">
-  <aside class="sidebar">
+  <!-- <aside class="sidebar">
     <h3>CalorNova</h3>
     <ul>
       <li><button on:click={() => window.location.href = 'https://s1acker.grafana.net/d/panel-geomap/geomap-examples?orgId=1&from=1719117949252&to=1719139549252'}>Grafana</button></li>
       <li><button on:click={() => showReport.set(false)}>Dashboards</button></li>
       <li><button on:click={() => showReport.set(true)}>View Report</button></li>
     </ul>
-  </aside>
+  </aside> -->
 
   <div class="dashboard">
     {#if $showReport}
@@ -44,6 +44,7 @@
   .layout {
     display: flex;
     min-height: 100vh;
+    max-width: 100%;
   }
 
   .sidebar {
