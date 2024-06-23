@@ -12,7 +12,7 @@
 <style>
   @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Quicksand:wght@300..700&display=swap");
   :global(body) {
-    margin: 0;
+    overflow-y: hidden;
     padding: 0;
     font-family: "Quicksand", sans-serif;
     background: linear-gradient(135deg, #333333 0%, #000000 100%);
@@ -23,7 +23,8 @@
   .app {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    height: 100vh;
+    
   }
 
   main {
@@ -34,6 +35,7 @@
     align-items: center;
     width: 100%;
     padding: 2rem;
+    margin-bottom: 2rem;
     box-sizing: border-box;
   }
 </style>

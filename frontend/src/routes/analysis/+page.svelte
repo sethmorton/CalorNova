@@ -2,6 +2,7 @@
   import { writable } from 'svelte/store';
   import ChartComponent from '../../components/ChartComponent.svelte';
   import Report from './Report.svelte'; // Assuming you have the Report component
+  import Footer from '../../components/Footer.svelte';
 
   export let user = "John Doe"; // Replace with the actual user name
 
@@ -22,16 +23,8 @@
 </script>
 
 <div class="layout">
-  <!-- <aside class="sidebar">
-    <h3>CalorNova</h3>
-    <ul>
-      <li><button on:click={() => window.location.href = 'https://s1acker.grafana.net/d/panel-geomap/geomap-examples?orgId=1&from=1719117949252&to=1719139549252'}>Grafana</button></li>
-      <li><button on:click={() => showReport.set(false)}>Dashboards</button></li>
-      <li><button on:click={() => showReport.set(true)}>View Report</button></li>
-    </ul>
-  </aside> -->
-
   <div class="dashboard">
+    <h1 class="header1">Analysis for Region (California), Zip Code: (Zip Code), at ()kWh Power Consumption</h1>
     {#if $showReport}
       <Report data={jsonData} />
     {:else}
@@ -39,53 +32,43 @@
     {/if}
   </div>
 </div>
+<footer>
+  <p>&copy; 2024 Volta. All rights reserved.</p>
+</footer>
 
 <style>
+  footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: rgb(52, 52, 52);
+      padding: 10px 20px;
+      box-shadow: 0 -2px 5px rgb(48, 48, 48);
+      text-align: center;
+      z-index: 100;
+  }
+  p {
+      margin: 0;
+      color: rgb(176, 176, 176);
+      font-size: 0.9em;
+  }
+
+  .header1 {
+    transform: translateY(-150%);
+    margin-bottom: 2rem;
+  }
+
   .layout {
-    display: flex;
-    min-height: 100vh;
+    display: absolute;
+    height: 300vh;
+    margin-bottom: 10rem;
     max-width: 100%;
+    padding-bottom: 10rem; /* Adjust this value based on the height of your footer */
+  
   }
 
-  .sidebar {
-    width: 15rem;
-    background-color: #2c3e50;
-    color: white;
-    padding: 1rem;
-    position: fixed;
-    transform: translateX(-110%);
-    height: 15rem;
+  .dashboard {
+    flex: 2;
+    /* padding-bottom: 2rem; */
   }
-
-  .sidebar h3 {
-    margin-top: 0;
-  }
-
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .sidebar ul li {
-    margin: 10px 0;
-  }
-
-  .sidebar ul li button {
-    width: 100%;
-    padding: 10px;
-    background-color: #34495e;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-
-  .sidebar ul li button:hover {
-    background-color: #1abc9c;
-  }
-
-  /* .dashboard {
-    flex: 1;
-    padding: 20px;
-    margin-left: 250px;
-  } */
 </style>

@@ -379,7 +379,8 @@
     display: grid;
     grid-template-columns: 2fr 2fr; /* Left side wider than right side */
     gap: 2rem;
-    padding: 2rem;
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
   }
 
   .chart-container {
@@ -418,7 +419,7 @@
     font-weight: bold;
     color: tusk;
     margin-top: 9rem;
-    transform: translateX(-60%);
+    transform: translateX(-40%);
     text-align: center;
   }
 
@@ -427,6 +428,8 @@
     width: 50rem;
     margin-right: 6rem;
     margin-left: 6rem;
+    /* margin-bottom: 6rem; */
+    transform: translateY(-8%);
   }
 
   .right-panel {
@@ -434,6 +437,8 @@
     flex-direction: column;
     gap: 1rem;
     width: 90%;
+    margin-bottom: 2rem;
+    transform: translateY(-9%);
   }
 
   .dashboard {
