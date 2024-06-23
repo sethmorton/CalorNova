@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import Chart from "chart.js/auto";
-  import annotationPlugin from "chartjs-plugin-annotation";
-
-  Chart.register(annotationPlugin);
+  import { writable } from 'svelte/store';
+  import ChartComponent from '../../components/ChartComponent.svelte';
+  import Report from './Report.svelte'; // Assuming you have the Report component
 
   export let user = "John Doe"; // Replace with the actual user name
 
-  let chartCanvas: HTMLCanvasElement;
+  // Create a store to handle the report view state
+  let showReport = writable(false);
 
   // Parse the provided JSON data
   const jsonData = JSON.parse(
@@ -16,143 +15,74 @@
 
   const hourlyData = jsonData.hourlyResults;
 
-  const chartData = {
-    labels: hourlyData.map((d) => d.hour),
-    datasets: [
-      {
-        label: "Combined Score",
-        data: hourlyData.map((d) => d.combinedScore),
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-        pointRadius: 5,
-        pointHoverRadius: 8,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      annotation: {
-        annotations: {
-          line80: {
-            type: "line" as const,
-            yMin: 80,
-            yMax: 80,
-            borderColor: "rgba(255, 0, 0, 0.5)",
-            borderWidth: 2,
-            label: {
-              content: "Increase compute significantly",
-              enabled: true,
-              position: "start" as const,
-            },
-          },
-          line60: {
-            type: "line" as const,
-            yMin: 60,
-            yMax: 60,
-            borderColor: "rgba(255, 165, 0, 0.5)",
-            borderWidth: 2,
-            label: {
-              content: "Slightly increase compute",
-              enabled: true,
-              position: "start" as const,
-            },
-          },
-          line40: {
-            type: "line" as const,
-            yMin: 40,
-            yMax: 40,
-            borderColor: "rgba(0, 255, 0, 0.5)",
-            borderWidth: 2,
-            label: {
-              content: "Maintain normal operations",
-              enabled: true,
-              position: "start" as const,
-            },
-          },
-          line20: {
-            type: "line" as const,
-            yMin: 20,
-            yMax: 20,
-            borderColor: "rgba(0, 0, 255, 0.5)",
-            borderWidth: 2,
-            label: {
-              content: "Slightly decrease compute",
-              enabled: true,
-              position: "start" as const,
-            },
-          },
-        },
-      },
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        display: true,
-        text: "Hourly Combined Score and Compute Recommendations",
-      },
-      tooltip: {
-        callbacks: {
-          label: (context) => {
-            const dataIndex = context.dataIndex;
-            const hourData = hourlyData[dataIndex];
-            return [
-              `Combined Score: ${hourData.combinedScore.toFixed(2)}`,
-              `Recommendation: ${hourData.recommendation}`,
-              `Hourly Cost: $${hourData.hourlyCost.toFixed(2)}`,
-              `Renewable Score: ${hourData.renewableScore.toFixed(2)}`,
-              `Total Credit: $${hourData.totalCredit.toFixed(2)}`,
-            ];
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        title: {
-          display: true,
-          text: "Hour of Day",
-        },
-        ticks: {
-          callback: (value) => `${value}:00`,
-        },
-      },
-      y: {
-        beginAtZero: true,
-        max: 100,
-        title: {
-          display: true,
-          text: "Combined Score",
-        },
-      },
-    },
-  };
-
-  onMount(() => {
-    new Chart(chartCanvas, {
-      type: "line",
-      data: chartData,
-      options: chartOptions,
-    });
+  // Calculate cumulative sum of hourly costs
+  const cumulativeHourlyCost = hourlyData.map((d, index) => {
+    return hourlyData.slice(0, index + 1).reduce((sum, data) => sum + (data.hourlyCost || 0), 0);
   });
 </script>
 
-<<<<<<< HEAD
-<div class="dashboard">
-  <h2>Hourly Compute Resource Management for {user}</h2>
-  <div class="chart-container">
-    <canvas bind:this={chartCanvas}></canvas>
+<div class="layout">
+  <aside class="sidebar">
+    <h3>CalorNova</h3>
+    <ul>
+      <li><button on:click={() => window.location.href = 'https://s1acker.grafana.net/d/panel-geomap/geomap-examples?orgId=1&from=1719117949252&to=1719139549252'}>Grafana</button></li>
+      <li><button on:click={() => showReport.set(false)}>Dashboards</button></li>
+      <li><button on:click={() => showReport.set(true)}>View Report</button></li>
+    </ul>
+  </aside>
+
+  <div class="dashboard">
+    {#if $showReport}
+      <Report data={jsonData} />
+    {:else}
+      <ChartComponent {hourlyData} {cumulativeHourlyCost} />
+    {/if}
   </div>
 </div>
 
 <style>
-  .dashboard {
+  .layout {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .sidebar {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    background-color: #2c3e50;
+    color: white;
     padding: 20px;
+  }
+
+  .sidebar h3 {
+    margin-top: 0;
+  }
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sidebar ul li {
+    margin: 10px 0;
+  }
+
+  .sidebar ul li button {
+    width: 100%;
+    padding: 10px;
+    background-color: #34495e;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .sidebar ul li button:hover {
+    background-color: #1abc9c;
+  }
+
+  .dashboard {
+    flex: 1;
+    padding: 0.1rem;
+    width: 100%;
   }
 
   h2 {
@@ -166,7 +96,3 @@
     width: 100%;
   }
 </style>
-=======
-<!-- <LineChart chartType="bar" {chartData} {chartOptions} /> -->
-<PieChart data={pieData} options={pieOptions} />
->>>>>>> c0994c7 (stashing changes latest)
