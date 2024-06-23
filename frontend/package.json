@@ -23,6 +23,7 @@
 	"type": "module",
 	"dependencies": {
 		"chart.js": "^4.4.3",
+		"chartjs-plugin-annotation": "^3.0.1",
 		"svelte-loading-spinners": "^0.3.6"
 	}
 }
