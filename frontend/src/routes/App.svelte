@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     import Chart from "./PieChart.svelte";
 
     const chartData = {
@@ -61,4 +61,4 @@
             max-width: none;
         }
     }
-</style>
+</style> -->

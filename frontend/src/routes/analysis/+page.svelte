@@ -139,6 +139,7 @@
   });
 </script>
 
+<<<<<<< HEAD
 <div class="dashboard">
   <h2>Hourly Compute Resource Management for {user}</h2>
   <div class="chart-container">
@@ -165,3 +166,7 @@
     width: 100%;
   }
 </style>
+=======
+<!-- <LineChart chartType="bar" {chartData} {chartOptions} /> -->
+<PieChart data={pieData} options={pieOptions} />
+>>>>>>> c0994c7 (stashing changes latest)
