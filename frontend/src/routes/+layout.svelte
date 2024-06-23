@@ -1,18 +1,11 @@
 <script>
 	import Header from './Header.svelte';
-	import './styles.css';
 </script>
 
-<div class="app">
-	<Header />
-
+<div>
 	<main>
 		<slot />
-	</main>
-
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
+	</main>	
 </div>
 
 <style>
@@ -20,34 +13,39 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		background: no-repeat center center fixed;
+		background-size: cover;
 	}
 
 	main {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
+		padding: 2rem;
 		box-sizing: border-box;
 	}
 
 	footer {
 		display: flex;
-		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		padding: 12px;
+		padding: 1rem;
+		background: rgba(0, 0, 0, 0.6);
+		color: white;
+		width: 100%;
+		box-sizing: border-box;
 	}
 
 	footer a {
+		color: #28a745;
 		font-weight: bold;
+		text-decoration: none;
 	}
 
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
+	footer a:hover {
+		text-decoration: underline;
 	}
 </style>
