@@ -56,10 +56,10 @@
             },
             title: {
                 display: true,
-                text: "Fuel Mix Composition",
+                text: "Current Fuel Mix Composition",
                 color: "white", // White text for title
                 font: {
-                        size: 20,
+                        size: 28,
                     }
             },
         },
@@ -406,7 +406,6 @@
   }
   .info-panel {
     justify-content: center;
-    text-align: center;
   }
 
   .info-panel h3 {
