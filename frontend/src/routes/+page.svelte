@@ -1,138 +1,170 @@
 <script>
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
+  import { writable } from "svelte/store";
 
-	let regions = ["California", "Arizona", "Texas", "Nevada", "Oregon"];
-	let selectedRegion = writable("");
-	let powerConsumption = writable("");
-	let zipCode = writable("");
-	let step = writable(0);
+  let regions = ["California", "Arizona", "Texas", "Nevada", "Oregon"];
+  let selectedRegion = writable("");
+  let powerConsumption = writable("");
+  let zipCode = writable("");
+  let step = writable(0);
 
-	function nextStep() {
-		step.update(n => n + 1);
-	}
+  function nextStep() {
+    step.update((n) => n + 1);
+  }
 
-	function prevStep() {
-		step.update(n => n - 1);
-	}
+  function prevStep() {
+    step.update((n) => n - 1);
+  }
 
-	function generateReport() {
-		alert(`Generating report for ${$selectedRegion} with power consumption of ${$powerConsumption} GWh`);
-	}
+  function generateReport() {
+    alert(
+      `Generating report for ${$selectedRegion} with power consumption of ${$powerConsumption} GWh`
+    );
+  }
 </script>
 
 <svelte:head>
-	<title>Power Savings Analysis</title>
-	<meta name="description" content="Analyze power savings and environmental sustainability based on power grid region and consumption" />
+  <title>Power Savings Analysis</title>
+  <meta
+    name="description"
+    content="Analyze power savings and environmental sustainability based on power grid region and consumption"
+  />
 </svelte:head>
 
-<!-- <section> -->
-	{#if $step === 0}
-		<div class="carousel-step">
-			<h2>Select Power Grid Region</h2>
-			<select bind:value={$selectedRegion}>
-				<option value="" disabled selected>Select a region</option>
-				{#each regions as region}
-					<option value={region}>{region}</option>
-				{/each}
-			</select>
-			<button on:click={nextStep} disabled={!$selectedRegion}>Next</button>
-		</div>
-	{/if}
+<h1 style="font-size: 3rem;">CalorNova</h1>
+<p style="font-size: 1.2rem;">
+  Analyze power savings and environmental sustainability based on your region
+  and consumption.
+</p>
 
-	{#if $step === 1}
-		<div class="carousel-step">
-			<h2>Enter Zip Code</h2>
-			<input type="number" bind:value={$zipCode} placeholder="Enter zip code" />
-			<div class="buttons">
-				<button on:click={prevStep}>Back</button>
-				<button on:click={nextStep} disabled={!$zipCode}>Next</button>
-			</div>
-		</div>
-	{/if}
+<section>
+  {#if $step === 0}
+    <div class="step">
+      <h2>Select Power Grid Region</h2>
+      <select bind:value={$selectedRegion}>
+        <option value="" disabled selected>Select a region</option>
+        {#each regions as region}
+          <option value={region}>{region}</option>
+        {/each}
+      </select>
+      <div class="buttons">
+        <button on:click={nextStep} disabled={!$selectedRegion}>Next</button>
+      </div>
+    </div>
+  {/if}
 
-	{#if $step === 2}
-		<div class="carousel-step">
-			<h2>Enter Power Consumption</h2>
-			<input type="number" bind:value={$powerConsumption} placeholder="Enter power consumption in GWh" />
-			<div class="buttons">
-				<button on:click={prevStep}>Back</button>
-				<button on:click={nextStep} disabled={!$powerConsumption}>Next</button>
-			</div>
-		</div>
-	{/if}
+  {#if $step === 1}
+    <div class="step">
+      <h2>Enter Zip Code</h2>
+      <input type="number" bind:value={$zipCode} placeholder="Enter zip code" />
+      <div class="buttons">
+        <button on:click={prevStep}>Back</button>
+        <button on:click={nextStep} disabled={!$zipCode}>Next</button>
+      </div>
+    </div>
+  {/if}
 
-	{#if $step === 3}
-		<div class="carousel-step">
-			<h2>Generate Analysis Report</h2>
-			<p>Region: {$selectedRegion}</p>
-			<p>Zip Code: {$zipCode}</p>
-			<p>Power Consumption: {$powerConsumption} GWh</p>
-			<div class="buttons2">
-				<button on:click={prevStep}>Back</button>
-				<button on:click={generateReport}>Generate Report</button>
-			</div>
-		</div>
-	{/if}
-<!-- </section> -->
+  {#if $step === 2}
+    <div class="step">
+      <h2>Enter Power Consumption</h2>
+      <input
+        type="number"
+        bind:value={$powerConsumption}
+        placeholder="Enter power consumption in GWh"
+      />
+      <div class="buttons">
+        <button on:click={prevStep}>Back</button>
+        <button on:click={nextStep} disabled={!$powerConsumption}>Next</button>
+      </div>
+    </div>
+  {/if}
+
+  {#if $step === 3}
+    <div class="step">
+      <h2>Generate Analysis Report</h2>
+      <p>Region: {$selectedRegion}</p>
+      <p>Zip Code: {$zipCode}</p>
+      <p>Power Consumption: {$powerConsumption} GWh</p>
+      <div class="buttons">
+        <button on:click={prevStep}>Back</button>
+        <button on:click={generateReport}>Generate Report</button>
+      </div>
+    </div>
+  {/if}
+</section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-		background: url('/path/to/environmental-background.jpg') no-repeat center center fixed;
-		background-size: cover;
-		color: #fff;
-		padding: 2rem;
-		border-radius: 1rem;
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-	}
+  body {
+    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #212121; /* Dark background */
+    color: #ffffff; /* White text */
+  }
 
-	.carousel-step {
-		text-align: center;
-		background: gray(0, 0, 0, 0.6);
-		padding: 1rem;
-		border-radius: 1rem;
-		width: 50%;
-		height: 50%;
-		animation: fadeIn 0.5s ease-in-out;
-	}
+  .hero {
+    background-color: #673ab7; /* Purple */
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid #9575cd; /* Lighter purple */
+  }
 
-	select, input {
-		margin: 1rem 0;
-		padding: 0.5rem;
-		border-radius: 0.5rem;
-		border: none;
-		width: 100%;
-		max-width: 300px;
-	}
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
 
-	.buttons, .buttons2 {
-		display: flex;
-		justify-content: center;
-		gap: 1rem;
-		margin-top: 1rem;
-	}
+  .step {
+    background-color: #424242; /* Dark grey */
+    padding: 2rem;
+    border-radius: 1rem; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
 
-	button {
-		padding: 0.5rem 1rem;
-		border: none;
-		border-radius: 0.5rem;
-		background-color: #28a745;
-		color: white;
-		cursor: pointer;
-	}
+  select,
+  input {
+    margin: 1rem 0;
+    padding: 0.75rem;
+    border-radius: 0.5rem; /* More rounded input fields */
+    border: 1px solid #757575; /* Dark grey border */
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+    background-color: #212121; /* Dark background for inputs */
+    color: #ffffff; /* White text */
+  }
 
-	button[disabled] {
-		background-color: #6c757d;
-		cursor: not-allowed;
-	}
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
 
-	@keyframes fadeIn {
-		from { opacity: 0; }
-		to { opacity: 1; }
-	}
+  button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem; /* Rounded buttons */
+    background-color: #673ab7; /* Purple */
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #9575cd; /* Lighter purple on hover */
+  }
+
+  button[disabled] {
+    background-color: #757575; /* Dark grey for disabled state */
+    cursor: not-allowed;
+  }
 </style>
