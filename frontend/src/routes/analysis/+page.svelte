@@ -79,4 +79,4 @@
 </script>
 
 <LineChart chartType="bar" {chartData} {chartOptions} />
-<PieChart data={pieData} options={pieOptions} />
+<!-- <PieChart data={pieData} options={pieOptions} /> -->

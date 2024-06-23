@@ -1,11 +1,14 @@
 <script>
   import { writable } from "svelte/store";
-
+  import { Circle2 } from "svelte-loading-spinners";
+  import { analysisStore } from "../stores";
+  import { goto } from "$app/navigation";
   let regions = ["California", "Arizona", "Texas", "Nevada", "Oregon"];
   let selectedRegion = writable("");
   let powerConsumption = writable("");
   let zipCode = writable("");
   let step = writable(0);
+  let isLoading = writable(false);
 
   function nextStep() {
     step.update((n) => n + 1);
@@ -15,10 +18,17 @@
     step.update((n) => n - 1);
   }
 
-  function generateReport() {
-    alert(
-      `Generating report for ${$selectedRegion} with power consumption of ${$powerConsumption} GWh`
+  async function generateReport() {
+    isLoading.set(true);
+    console.log(
+      `https://vulgegl7rd.execute-api.us-east-2.amazonaws.com/fuel-mix-analysis?zip_code=${$zipCode}&power_kwh=${$powerConsumption}`
     );
+    const analysis = await fetch(
+      `https://vulgegl7rd.execute-api.us-east-2.amazonaws.com/fuel-mix-analysis?zip_code=${$zipCode}&power_kwh=${$powerConsumption}`
+    ).then((res) => res.json());
+    isLoading.set(false);
+    analysisStore.set(analysis);
+    goto("/analysis");
   }
 </script>
 
@@ -37,58 +47,79 @@
 </p>
 
 <section>
-  {#if $step === 0}
-    <div class="step">
-      <h2>Select Power Grid Region</h2>
-      <select bind:value={$selectedRegion}>
-        <option value="" disabled selected>Select a region</option>
-        {#each regions as region}
-          <option value={region}>{region}</option>
-        {/each}
-      </select>
-      <div class="buttons">
-        <button on:click={nextStep} disabled={!$selectedRegion}>Next</button>
-      </div>
-    </div>
-  {/if}
-
-  {#if $step === 1}
-    <div class="step">
-      <h2>Enter Zip Code</h2>
-      <input type="number" bind:value={$zipCode} placeholder="Enter zip code" />
-      <div class="buttons">
-        <button on:click={prevStep}>Back</button>
-        <button on:click={nextStep} disabled={!$zipCode}>Next</button>
-      </div>
-    </div>
-  {/if}
-
-  {#if $step === 2}
-    <div class="step">
-      <h2>Enter Power Consumption</h2>
-      <input
-        type="number"
-        bind:value={$powerConsumption}
-        placeholder="Enter power consumption in KWh"
+  {#if $isLoading}
+    <div class="loading">
+      <Circle2
+        size="60"
+        unit="px"
+        colorOuter="#673ab7"
+        colorCenter="#9575cd"
+        colorInner="#c7a4ff"
+        durationOuter="1s"
+        durationCenter="1.5s"
+        durationInner="2s"
       />
-      <div class="buttons">
-        <button on:click={prevStep}>Back</button>
-        <button on:click={nextStep} disabled={!$powerConsumption}>Next</button>
-      </div>
+      <p>Generating report...</p>
     </div>
-  {/if}
+  {:else}
+    {#if $step === 0}
+      <div class="step">
+        <h2>Select Power Grid Region</h2>
+        <select bind:value={$selectedRegion}>
+          <option value="" disabled selected>Select a region</option>
+          {#each regions as region}
+            <option value={region}>{region}</option>
+          {/each}
+        </select>
+        <div class="buttons">
+          <button on:click={nextStep} disabled={!$selectedRegion}>Next</button>
+        </div>
+      </div>
+    {/if}
 
-  {#if $step === 3}
-    <div class="step">
-      <h2>Generate Analysis Report</h2>
-      <p>Region: {$selectedRegion}</p>
-      <p>Zip Code: {$zipCode}</p>
-      <p>Power Consumption: {$powerConsumption.toLocaleString()} KWh</p>
-      <div class="buttons">
-        <button on:click={prevStep}>Back</button>
-        <button on:click={generateReport}>Generate Report</button>
+    {#if $step === 1}
+      <div class="step">
+        <h2>Enter Zip Code</h2>
+        <input
+          type="number"
+          bind:value={$zipCode}
+          placeholder="Enter zip code"
+        />
+        <div class="buttons">
+          <button on:click={prevStep}>Back</button>
+          <button on:click={nextStep} disabled={!$zipCode}>Next</button>
+        </div>
       </div>
-    </div>
+    {/if}
+
+    {#if $step === 2}
+      <div class="step">
+        <h2>Enter Power Consumption</h2>
+        <input
+          type="number"
+          bind:value={$powerConsumption}
+          placeholder="Enter power consumption in KWh"
+        />
+        <div class="buttons">
+          <button on:click={prevStep}>Back</button>
+          <button on:click={nextStep} disabled={!$powerConsumption}>Next</button
+          >
+        </div>
+      </div>
+    {/if}
+
+    {#if $step === 3}
+      <div class="step">
+        <h2>Generate Analysis Report</h2>
+        <p>Region: {$selectedRegion}</p>
+        <p>Zip Code: {$zipCode}</p>
+        <p>Power Consumption: {$powerConsumption.toLocaleString()} KWh</p>
+        <div class="buttons">
+          <button on:click={prevStep}>Back</button>
+          <button on:click={generateReport}>Generate Report</button>
+        </div>
+      </div>
+    {/if}
   {/if}
 </section>
 
@@ -157,6 +188,7 @@
     font-size: 1rem;
     margin-right: 0.5rem;
     transition: background-color 0.3s ease;
+    font-family: "Quicksand", sans-serif;
   }
 
   button:hover {
@@ -166,5 +198,13 @@
   button[disabled] {
     background-color: #757575; /* Dark grey for disabled state */
     cursor: not-allowed;
+  }
+  .loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    text-align: center;
   }
 </style>
