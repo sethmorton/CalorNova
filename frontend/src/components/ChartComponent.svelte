@@ -13,6 +13,50 @@
   let chartInstance;
   let chartInstance1;
 
+  export let data = {
+        labels: ["Coal", "Natural Gas", "Nuclear", "Hydro", "Renewables"],
+        datasets: [
+            {
+                data: [30, 35, 20, 10, 5], // Example percentages
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.5)", // Coal - red
+                    "rgba(54, 162, 235, 0.5)", // Natural Gas - blue
+                    "rgba(255, 206, 86, 0.5)", // Nuclear - yellow
+                    "rgba(75, 192, 192, 0.5)", // Hydro - green
+                    "rgba(153, 102, 255, 0.5)", // Renewables - purple
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)", // Coal - red
+                    "rgba(54, 162, 235, 1)", // Natural Gas - blue
+                    "rgba(255, 206, 86, 1)", // Nuclear - yellow
+                    "rgba(75, 192, 192, 1)", // Hydro - green
+                    "rgba(153, 102, 255, 1)", // Renewables - purple
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    export let options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: "top",
+                labels: {
+                    color: "white", // White text for legend
+                },
+            },
+            title: {
+                display: true,
+                text: "Fuel Mix Composition",
+                color: "white", // White text for title
+            },
+        },
+    };
+
+    let canvas;
+    let chart2;
+
   const chartData = {
     labels: hourlyData.map((d) => d.hour),
     datasets: [
@@ -238,6 +282,16 @@
         data: chartData1,
         options: chartOptions1,
       });
+
+      chart2 = new Chart(canvas, {
+            type: "pie",
+            data,
+            options,
+        });
+
+        return () => {
+            chart2.destroy();
+        };
     }
   }
 
@@ -246,10 +300,17 @@
     createCharts();
   });
 
+  $: if (chart2) {
+        chart2.data = data;
+        chart2.options = options;
+        chart2.update();
+    }
+
   // Destroy charts when component is destroyed
   onDestroy(() => {
     if (chartInstance) chartInstance.destroy();
     if (chartInstance1) chartInstance1.destroy();
+    if (chart2) chart2.destroy();
   });
 </script>
 
@@ -263,15 +324,26 @@
   <div class="chart-container">
     <canvas bind:this={chartCanvas1}></canvas>
   </div>
+  <div class="mx-3 px-3 my-6 py-6 chart-container-1">
+    <canvas bind:this={canvas}></canvas>
+
+  </div>
 </div>
 
 <style>
   .chart-container {
     height: 600px;
-    width: 100%;
+    width: 90%;
+  }
+
+  .chart-container-1 {
+    height: 600px;
+    width: 90%;
+    margin-left: 3rem;
+    margin-top: 2rem;
   }
 
   .parent-container {
-    width: 50rem;
+    width: 50.9rem;
   }
 </style>

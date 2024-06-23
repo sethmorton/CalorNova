@@ -63,8 +63,8 @@
         {#each data.hourlyResults as result}
           <tr>
             <td>{result.hour}</td>
-            <td>{(result.renewableShare * 100)}%</td>
-            <td>${result.lmp}</td>
+            <td>{result.renewableScore}%</td>
+            <td>${result.normalizedCost}</td>
             <td>{result.combinedScore}</td>
             <td>{result.recommendation}</td>
           </tr>
@@ -79,8 +79,9 @@
     padding: 0.5rem;
     background-color: #f9f9f9;
     border-radius: 8px;
-    max-width: 100%;
-    margin: 0 auto;
+    /* max-width: 100%; */
+    width: 100%;
+    /* margin: 0 auto; */
   }
 
   h1, h2 {
@@ -96,7 +97,7 @@
   table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 
   table, th, td {

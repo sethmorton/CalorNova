@@ -47,10 +47,13 @@
   }
 
   .sidebar {
-    width: 100%;
+    width: 15rem;
     background-color: #2c3e50;
     color: white;
-    padding: 20px;
+    padding: 1rem;
+    position: fixed;
+    transform: translateX(-110%);
+    height: 15rem;
   }
 
   .sidebar h3 {
@@ -79,20 +82,9 @@
     background-color: #1abc9c;
   }
 
-  .dashboard {
+  /* .dashboard {
     flex: 1;
-    padding: 0.1rem;
-    width: 100%;
-  }
-
-  h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .chart-container {
-    height: 600px;
-    width: 100%;
-  }
+    padding: 20px;
+    margin-left: 250px;
+  } */
 </style>
